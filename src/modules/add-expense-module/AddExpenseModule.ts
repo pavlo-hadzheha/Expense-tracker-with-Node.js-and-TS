@@ -1,21 +1,54 @@
-import { addExpenseModuleQuestions } from './add-expense-module.questions';
 import { db } from '../../db';
 import { isLastMonth, isLastSemiYear, isLastWeek, isLastYear } from '../../helpers';
 import { amountHandler } from "./amount.handler";
 
 import { type ExpenseRecordDto } from "./expense-record.dto";
-import {IExpenseRecord, IModuleConstructor, Module, TNullable} from "../../base";
+import {EExpenseCategory, IExpenseRecord, IModuleConstructor, Module, TNullable} from "../../base";
+import {QuestionCollection} from "inquirer";
+import chalk from "chalk";
+import {RootModule} from "../RootModule";
 
 
 export class AddExpenseModule extends Module {
-  children: IModuleConstructor[] = [];
-  questions = addExpenseModuleQuestions;
+  name = 'AddExpenseModule'
+  children: IModuleConstructor[] = [RootModule];
+  questions: QuestionCollection = [
+    {
+        message: 'What have you spent on?',
+        name: 'category',
+        type: 'list',
+        default: 1,
+        pageSize: Infinity,
+        loop: false,
+        suffix: '\n',
+        choices: [
+          { value: EExpenseCategory.RENT, name: 'Rent' },
+          { value: EExpenseCategory.FOOD, name: 'Food' },
+          { value: EExpenseCategory.SELF_CARE, name: 'Self-care' },
+          { value: EExpenseCategory.ENTERTAINMENT, name: 'Entertainment' },
+          { value: EExpenseCategory.EDUCATION, name: 'Education' },
+          { value: EExpenseCategory.CHARITY_DONATIONS, name: 'Charity & Donations' },
+          { value: EExpenseCategory.PRESENTS, name: 'Presents' },
+          { value: EExpenseCategory.INVESTMENTS, name: 'Investments' },
+          { value: Infinity, name: chalk.yellowBright('Back') },
+        ]
+    },
+    {
+        message: 'How much did it cost you?',
+        name: 'amount',
+        type: 'input',
+        default: '0',
+        when: _answers => _answers.category !== Infinity
+    },
+];
 
   nextModuleResolver(): TNullable<IModuleConstructor> {
+    if (this.answers.category === Infinity) return RootModule
     return null;
   }
 
   async onInquiryEnd() {
+    if (this.answers.category === Infinity) return
     const { amount , category } = this.answers as ExpenseRecordDto
 
     await db.createRecord({

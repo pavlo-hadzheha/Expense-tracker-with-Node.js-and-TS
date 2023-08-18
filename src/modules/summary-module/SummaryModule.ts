@@ -3,6 +3,8 @@ import { ESummaryOptions } from "./summary-module.types";
 import { RootModule } from "../RootModule";
 
 export class SummaryModule extends Module implements IModuleOnInquiryEnd {
+    name: 'SummaryModule';
+    children: IModuleConstructor[] = [RootModule];
     questions = [
         {
             message: 'How do you want your data summarized?',

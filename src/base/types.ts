@@ -32,15 +32,13 @@ export interface INextModuleResolver {
     nextModuleResolver(): TMaybePromise<TNullable<IModuleConstructor>>
 }
 
-export interface IBaseModule extends
-    Partial<IModuleOnInquiryEnd>,
-    Partial<INextModuleResolver> {
+export interface IBaseModule {
     id: string
     questions: QuestionCollection
     answers: TNullable<IAnswers>
     children: IModuleConstructor[]
     previousModuleAnswers: TNullable<IAnswers[]>
-    start(): void
+    start(): TMaybePromise<void>
 }
 
 export interface IModuleConstructor {
