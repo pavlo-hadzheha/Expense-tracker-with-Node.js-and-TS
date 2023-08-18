@@ -21,11 +21,12 @@ export abstract class Module implements IBaseModule {
             .then(_answers => {
                 this.answers = _answers
                 return _answers
-            }).then(() => {
-                if (this.onInquiryEnd) return this.onInquiryEnd();
-            }).then(() => {
-                return this.nextModuleResolver();
-            }).then(_nextModuleConstructor => {
+            })
+            .then(() => this.onInquiryEnd && this.onInquiryEnd())
+            .then(() => this.nextModuleResolver
+                        ? this.nextModuleResolver()
+                        : null)
+            .then(_nextModuleConstructor => {
                 if (_nextModuleConstructor != null) {
                     return new _nextModuleConstructor()
                 }

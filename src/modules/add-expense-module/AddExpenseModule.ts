@@ -16,7 +16,7 @@ export class AddExpenseModule extends Module {
   }
 
   async onInquiryEnd() {
-    const {amount , category} = this.answers as ExpenseRecordDto
+    const { amount , category } = this.answers as ExpenseRecordDto
 
     await db.createRecord({
       amount: amountHandler(amount as string),

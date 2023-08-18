@@ -1,14 +1,15 @@
 import { AddExpenseModule } from './add-expense-module/AddExpenseModule';
 
-import { Module } from "../base";
+import {INextModuleResolver, Module} from "../base";
 import { IModuleConstructor, TNullable } from "../base";
-import {EStartMenuOption} from "./root-module.types";
+import { EStartMenuOption } from "./root-module.types";
+import { SummaryModule } from "./summary-module/SummaryModule";
 
-export class RootModule extends Module {
+export class RootModule extends Module implements INextModuleResolver {
   children: IModuleConstructor[] = [AddExpenseModule];
   questions = [
     {
-      message: 'What can I do for you?',
+      message: 'What can I do for you?\n',
       name: 'action',
       type: 'list',
       default: EStartMenuOption.SHOW_ALL_RECORDS,
@@ -23,7 +24,7 @@ export class RootModule extends Module {
 
   nextModuleResolver(): TNullable<IModuleConstructor> {
     if (this.answers.action === EStartMenuOption.ADD_RECORD) return AddExpenseModule;
-    if (this.answers.action === EStartMenuOption.SHOW_SUMMARY) this.suspend();
+    if (this.answers.action === EStartMenuOption.SHOW_SUMMARY) return SummaryModule;
     if (this.answers.action === EStartMenuOption.SHOW_ALL_RECORDS) this.suspend();
     if (this.answers.action === EStartMenuOption.CLOSE) this.suspend();
     return null;
