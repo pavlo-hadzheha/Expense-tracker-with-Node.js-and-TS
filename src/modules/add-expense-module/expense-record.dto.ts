@@ -1,4 +1,4 @@
-import {EExpenseCategory} from "../types.js";
+import { EExpenseCategory } from "../../base";
 
 export class ExpenseRecordDto {
     amount: number | string

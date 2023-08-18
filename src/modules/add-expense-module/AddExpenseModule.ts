@@ -1,36 +1,22 @@
-import { v4 as uuid } from 'uuid';
-import inquirer from 'inquirer';
+import { addExpenseModuleQuestions } from './add-expense-module.questions';
+import { db } from '../../db';
+import { isLastMonth, isLastSemiYear, isLastWeek, isLastYear } from '../../helpers';
+import { amountHandler } from "./amount.handler";
 
-import { addExpenseModuleQuestions } from './add-expense-module.questions.js';
-import { db } from '../db/index.js';
-import { isLastMonth, isLastSemiYear, isLastWeek, isLastYear } from '../helpers/index.js';
-import { amountHandler } from "./amount.handler.js";
-
-import { type ExpenseRecordDto } from "./expense-record.dto.js";
-import type {
-  IAnswer,
-  IExpenseRecord,
-  IModule,
-  IModuleConstructor,
-  TNullable,
-} from '../types';
+import { type ExpenseRecordDto } from "./expense-record.dto";
+import {IExpenseRecord, IModuleConstructor, Module, TNullable} from "../../base";
 
 
-export class AddExpenseModule implements IModule {
-  id = uuid();
+export class AddExpenseModule extends Module {
   children: IModuleConstructor[] = [];
   questions = addExpenseModuleQuestions;
 
-  constructor(
-    public previousModuleAnswers: TNullable<IAnswer[]> = null,
-  ) {}
-
-  nextModuleResolver(_answers: IAnswer[]): TNullable<IModuleConstructor> {
+  nextModuleResolver(): TNullable<IModuleConstructor> {
     return null;
   }
 
-  async onInquiryEnd(_answers: IAnswer) {
-    const {amount , category} = _answers as ExpenseRecordDto
+  async onInquiryEnd() {
+    const {amount , category} = this.answers as ExpenseRecordDto
 
     await db.createRecord({
       amount: amountHandler(amount as string),
@@ -63,14 +49,5 @@ export class AddExpenseModule implements IModule {
       lastMonth: 0,
       lastWeek: 0,
     });
-  }
-
-  async start(): Promise<void> {
-    const answers: IAnswer[] = await inquirer.prompt(this.questions);
-    await this.onInquiryEnd(answers);
-    const nextModule = this.nextModuleResolver(answers);
-    if (nextModule != null) {
-      new nextModule(answers).start();
-    }
   }
 }

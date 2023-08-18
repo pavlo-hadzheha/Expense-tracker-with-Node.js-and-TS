@@ -1,8 +1,8 @@
 import { readFile, writeFile } from 'fs/promises';
 import path from 'path';
 import { v4 as uuid } from 'uuid';
-import { IExpenseRecord } from '../types.js';
-import { ExpenseRecordDto } from '../add-expense-module/expense-record.dto.js';
+import { ExpenseRecordDto } from '../modules/add-expense-module/expense-record.dto';
+import {IExpenseRecord} from "../base";
 
 class ExpensesDatabase {
   dbPath = path.resolve('./expenses-table.json');

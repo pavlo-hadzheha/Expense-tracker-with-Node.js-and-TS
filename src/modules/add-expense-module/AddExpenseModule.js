@@ -40,8 +40,8 @@ exports.AddExpenseModule = void 0;
 var uuid_1 = require("uuid");
 var inquirer_1 = require("inquirer");
 var add_expense_module_questions_js_1 = require("./add-expense-module.questions.js");
-var index_js_1 = require("../db/index.js");
-var index_js_2 = require("../helpers/index.js");
+var index_js_1 = require("../../db/index.js");
+var index_js_2 = require("../../helpers/index.js");
 var AddExpenseModule = /** @class */ (function () {
     function AddExpenseModule(previousModuleAnswers) {
         if (previousModuleAnswers === void 0) { previousModuleAnswers = null; }

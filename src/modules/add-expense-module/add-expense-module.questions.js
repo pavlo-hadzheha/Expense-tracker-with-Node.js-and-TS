@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addExpenseModuleQuestions = void 0;
-var types_js_1 = require("../types.js");
+var types_js_1 = require("../../types.js");
 var categories = [
     { value: types_js_1.EExpenseCategory.RENT, name: 'Rent' },
     { value: types_js_1.EExpenseCategory.FOOD, name: 'Food' },

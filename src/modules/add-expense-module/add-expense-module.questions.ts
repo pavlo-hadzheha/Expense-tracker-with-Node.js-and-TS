@@ -1,4 +1,4 @@
-import {EExpenseCategory} from "../types.js";
+import {EExpenseCategory} from "../../base";
 
 const categories = [
     { value: EExpenseCategory.RENT, name: 'Rent' },
