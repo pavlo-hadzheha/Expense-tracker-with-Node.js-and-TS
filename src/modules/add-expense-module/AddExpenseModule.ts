@@ -43,12 +43,12 @@ export class AddExpenseModule extends Module implements INextModuleResolver {
 ];
 
   nextModuleResolver(): TNullable<IModuleConstructor> {
-    if (this.answers.category === Infinity) return RootModule
+    if (this.answers?.category === Infinity) return RootModule
     return null;
   }
 
   async onInquiryEnd() {
-    if (this.answers.category === Infinity) return
+    if (this.answers?.category === Infinity) return
     const { amount , category } = this.answers as ExpenseRecordDto
 
     await db.createRecord({

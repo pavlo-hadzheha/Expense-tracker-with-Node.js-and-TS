@@ -28,15 +28,15 @@ export class SummaryModule extends Module implements IModuleOnInquiryEnd, INextM
         },
     ];
     onInquiryEnd()  {
-        if (this.answers.summaryType === ESummaryOptions.BY_CATEGORY) this.summariseByCategory()
-        if (this.answers.summaryType === ESummaryOptions.BY_TIMEFRAMES) this.summariseByTimeframe()
-        if (this.answers.summaryType === ESummaryOptions.BY_CATEGORY_AND_TIMEFRAMES) this.summariseByCategoryAndTimeframe()
+        if (this.answers?.summaryType === ESummaryOptions.BY_CATEGORY) this.summariseByCategory()
+        if (this.answers?.summaryType === ESummaryOptions.BY_TIMEFRAMES) this.summariseByTimeframe()
+        if (this.answers?.summaryType === ESummaryOptions.BY_CATEGORY_AND_TIMEFRAMES) this.summariseByCategoryAndTimeframe()
         return null
     }
 
     nextModuleResolver(): TMaybePromise<TNullable<IModuleConstructor>> {
-        if (this.answers.summaryType === ESummaryOptions.BACK) return RootModule;
-        if (this.answers.summaryType === ESummaryOptions.CLOSE) this.suspend()
+        if (this.answers?.summaryType === ESummaryOptions.BACK) return RootModule;
+        if (this.answers?.summaryType === ESummaryOptions.CLOSE) this.suspend()
         return null
     }
 

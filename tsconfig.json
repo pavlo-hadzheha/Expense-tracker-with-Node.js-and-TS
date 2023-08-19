@@ -1,5 +1,7 @@
 {
-  "include": ["src/**/*"],
+  "include": [
+    "src/**/*"
+  ],
   "compilerOptions": {
     "allowJs": true,
     "target": "ESNext",
@@ -9,5 +11,6 @@
     "outDir": "build",
     "rootDir": "src",
     "esModuleInterop": true,
+    "strictNullChecks": true
   }
 }

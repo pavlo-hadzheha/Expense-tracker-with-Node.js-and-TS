@@ -9,13 +9,12 @@ export class RecordsModule extends Module implements INextModuleResolver {
     children: IModuleConstructor[] = [RootModule]
 
     nextModuleResolver(): TMaybePromise<TNullable<IModuleConstructor>> {
-        if (Module.validateUUID(this.answers.recordId)) {
+        if (Module.validateUUID(this.answers?.recordId)) {
             this.suspend()
-        } else if (this.answers.recordId === ERecordsModuleOptions.BACK) {
+        } else if (this.answers?.recordId === ERecordsModuleOptions.BACK) {
             return RootModule
-        } else {
-            return null
         }
+        return null
     }
 
     override async start () {

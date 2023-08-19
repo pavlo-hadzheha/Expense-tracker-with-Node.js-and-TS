@@ -24,20 +24,15 @@ export abstract class Module implements IBaseModule {
                 this.answers = _answers
                 return _answers
             })
-            .then(() => this.onInquiryEnd && this.onInquiryEnd())
-            .then(() => this.nextModuleResolver
-                        ? this.nextModuleResolver()
-                        : null)
+            .then(() => this.onInquiryEnd?.())
+            .then(() => this.nextModuleResolver?.() || null)
             .then(_nextModuleConstructor => {
                 if (_nextModuleConstructor != null) {
                     this.checkChildren(_nextModuleConstructor)
                     return new _nextModuleConstructor()
                 }
-            }).then(_nextModule => {
-                if(_nextModule) {
-                    _nextModule.start();
-                }
-            }).catch(console.error)
+            }).then(_nextModule => _nextModule?.start())
+            .catch(console.error)
     }
     onBeforeStart() {
         console.clear()

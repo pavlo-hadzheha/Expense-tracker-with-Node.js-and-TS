@@ -30,10 +30,10 @@ export class RootModule extends Module implements INextModuleResolver {
   ];
 
   nextModuleResolver(): TNullable<IModuleConstructor> {
-    if (this.answers.action === EStartMenuOption.ADD_RECORD) return AddExpenseModule;
-    if (this.answers.action === EStartMenuOption.SHOW_SUMMARY) return SummaryModule;
-    if (this.answers.action === EStartMenuOption.SHOW_ALL_RECORDS) return RecordsModule;
-    if (this.answers.action === EStartMenuOption.CLOSE) this.suspend();
+    if (this.answers?.action === EStartMenuOption.ADD_RECORD) return AddExpenseModule;
+    if (this.answers?.action === EStartMenuOption.SHOW_SUMMARY) return SummaryModule;
+    if (this.answers?.action === EStartMenuOption.SHOW_ALL_RECORDS) return RecordsModule;
+    if (this.answers?.action === EStartMenuOption.CLOSE) this.suspend();
     return null;
   }
 }
