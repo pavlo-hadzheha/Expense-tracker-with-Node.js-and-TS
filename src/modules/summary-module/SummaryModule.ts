@@ -1,8 +1,15 @@
-import {IModuleConstructor, IModuleOnInquiryEnd, Module, TMaybePromise, TNullable} from "../../base";
+import {
+    IModuleConstructor,
+    IModuleOnInquiryEnd,
+    INextModuleResolver,
+    Module,
+    TMaybePromise,
+    TNullable
+} from "../../base";
 import { ESummaryOptions } from "./summary-module.types";
 import { RootModule } from "../RootModule";
 
-export class SummaryModule extends Module implements IModuleOnInquiryEnd {
+export class SummaryModule extends Module implements IModuleOnInquiryEnd, INextModuleResolver{
     name: 'SummaryModule';
     children: IModuleConstructor[] = [RootModule];
     questions = [

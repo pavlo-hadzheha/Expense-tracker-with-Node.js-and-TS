@@ -36,7 +36,6 @@ export interface IBaseModule {
     id: string
     questions: QuestionCollection
     answers: TNullable<IAnswers>
-    children: IModuleConstructor[]
     previousModuleAnswers: TNullable<IAnswers[]>
     start(): TMaybePromise<void>
 }

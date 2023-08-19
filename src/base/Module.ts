@@ -55,3 +55,13 @@ export abstract class Module implements IBaseModule {
         return uuid.validate(_input)
     }
 }
+
+class User {
+    name: string
+}
+
+class Admin extends User {
+}
+
+const a: typeof User[] = [Admin, User]
+new a[0]

@@ -3,13 +3,13 @@ import { isLastMonth, isLastSemiYear, isLastWeek, isLastYear } from '../../helpe
 import { amountHandler } from "./amount.handler";
 
 import { type ExpenseRecordDto } from "./expense-record.dto";
-import {EExpenseCategory, IExpenseRecord, IModuleConstructor, Module, TNullable} from "../../base";
+import {EExpenseCategory, IExpenseRecord, IModuleConstructor, INextModuleResolver, Module, TNullable} from "../../base";
 import {QuestionCollection} from "inquirer";
 import chalk from "chalk";
 import {RootModule} from "../RootModule";
 
 
-export class AddExpenseModule extends Module {
+export class AddExpenseModule extends Module implements INextModuleResolver {
   name = 'AddExpenseModule'
   children: IModuleConstructor[] = [RootModule];
   questions: QuestionCollection = [

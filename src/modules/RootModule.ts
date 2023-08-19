@@ -5,8 +5,10 @@ import { EStartMenuOption } from "./root-module.types";
 import { AddExpenseModule } from './add-expense-module/AddExpenseModule';
 import { SummaryModule } from "./summary-module/SummaryModule";
 import { RecordsModule } from "./records-module/RecordsModule";
+
+import { QuestionCollection } from "inquirer";
 import chalk from "chalk";
-import {QuestionCollection} from "inquirer";
+
 
 export class RootModule extends Module implements INextModuleResolver {
   name = 'RootModule'

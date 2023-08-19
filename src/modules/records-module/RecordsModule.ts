@@ -1,10 +1,10 @@
-import {EExpenseCategory, IModuleConstructor, Module, TMaybePromise, TNullable} from "../../base";
+import {EExpenseCategory, IModuleConstructor, INextModuleResolver, Module, TMaybePromise, TNullable} from "../../base";
 import { db } from "../../db";
 import {ERecordsModuleOptions} from "./records-module.types";
 import {RootModule} from "../RootModule";
 import chalk from "chalk";
 
-export class RecordsModule extends Module {
+export class RecordsModule extends Module implements INextModuleResolver {
     name: 'RecordsModule'
     children: IModuleConstructor[] = [RootModule]
 
