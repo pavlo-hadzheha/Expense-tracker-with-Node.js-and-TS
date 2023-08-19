@@ -9,7 +9,7 @@ import {
 import { ESummaryOptions } from "./summary-module.types";
 import { RootModule } from "../RootModule";
 
-export class SummaryModule extends Module implements IModuleOnInquiryEnd, INextModuleResolver{
+export class SummaryModule extends Module implements IModuleOnInquiryEnd, INextModuleResolver {
     name: 'SummaryModule';
     children: IModuleConstructor[] = [RootModule];
     questions = [

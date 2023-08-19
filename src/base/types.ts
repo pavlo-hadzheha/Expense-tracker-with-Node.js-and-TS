@@ -31,6 +31,9 @@ export interface IModuleOnInquiryEnd {
 export interface INextModuleResolver {
     nextModuleResolver(): TMaybePromise<TNullable<IModuleConstructor>>
 }
+export interface IOnBeforeStart {
+    onBeforeStart(): TMaybePromise<void>
+}
 
 export interface IBaseModule {
     id: string
