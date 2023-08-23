@@ -13,10 +13,11 @@ class ExpensesDatabase {
   }
 
   async createRecord(_expenseRecordDto: ExpenseRecordDto) {
-    const { amount, category } = _expenseRecordDto;
+    const { amount, category, comment } = _expenseRecordDto;
     const record: IExpenseRecord = {
       amount: amount as number,
       category,
+      comment,
       date: new Date().toISOString(),
       id: uuid(),
     };

@@ -1,4 +1,4 @@
-import { INextModuleResolver, Module } from "../base";
+import { INextModuleResolver, Module} from "../base";
 import { IModuleConstructor, TNullable } from "../base";
 import { EStartMenuOption } from "./root-module.types";
 
@@ -9,10 +9,10 @@ import { RecordsModule } from "./records-module/RecordsModule";
 import { QuestionCollection } from "inquirer";
 import chalk from "chalk";
 
-
 export class RootModule extends Module implements INextModuleResolver {
   name = 'RootModule'
   children: IModuleConstructor[] = [AddExpenseModule, SummaryModule, RecordsModule];
+  parent = null
   questions: QuestionCollection = [
     {
       message: 'What can I do for you?\n',

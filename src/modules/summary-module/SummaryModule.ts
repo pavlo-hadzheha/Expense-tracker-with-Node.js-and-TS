@@ -1,4 +1,5 @@
 import {
+    IExpenseRecord,
     IModuleConstructor,
     IModuleOnInquiryEnd,
     INextModuleResolver,
@@ -8,10 +9,17 @@ import {
 } from "../../base";
 import { ESummaryOptions } from "./summary-module.types";
 import { RootModule } from "../RootModule";
+import {
+    summariseExpensesByCategory,
+    summariseExpensesByCategoryAndTimeframes,
+    summariseExpensesByTimeframes
+} from "../../helpers/summarizers.helpers";
+import {db} from "../../db";
 
 export class SummaryModule extends Module implements IModuleOnInquiryEnd, INextModuleResolver {
     name: 'SummaryModule';
     children: IModuleConstructor[] = [RootModule];
+    parent = RootModule
     questions = [
         {
             message: 'How do you want your data summarized?',
@@ -27,7 +35,17 @@ export class SummaryModule extends Module implements IModuleOnInquiryEnd, INextM
             ],
         },
     ];
-    onInquiryEnd()  {
+
+    data: IExpenseRecord[] = []
+
+    async onInquiryEnd()  {
+        if ([
+            ESummaryOptions.BY_CATEGORY,
+            ESummaryOptions.BY_CATEGORY_AND_TIMEFRAMES,
+            ESummaryOptions.BY_TIMEFRAMES
+        ].includes(this.answers?.summaryType)) {
+            this.data = await db.getAll()
+        }
         if (this.answers?.summaryType === ESummaryOptions.BY_CATEGORY) this.summariseByCategory()
         if (this.answers?.summaryType === ESummaryOptions.BY_TIMEFRAMES) this.summariseByTimeframe()
         if (this.answers?.summaryType === ESummaryOptions.BY_CATEGORY_AND_TIMEFRAMES) this.summariseByCategoryAndTimeframe()
@@ -41,14 +59,14 @@ export class SummaryModule extends Module implements IModuleOnInquiryEnd, INextM
     }
 
     summariseByCategory () {
-        console.log('By Category')
+        console.table(summariseExpensesByCategory(this.data, true), ['category', 'total'])
     }
 
     summariseByTimeframe () {
-        console.log('By Timeframes')
+        console.table(summariseExpensesByTimeframes(this.data))
     }
 
     summariseByCategoryAndTimeframe() {
-        console.log('By category and timeframes')
+        console.table(summariseExpensesByCategoryAndTimeframes(this.data))
     }
 }

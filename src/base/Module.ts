@@ -1,6 +1,5 @@
 import {
-    IAnswers,
-    IBaseModule,
+    IAnswers, IBaseModule,
     IModuleConstructor,
     TMaybePromise,
     TNullable
@@ -11,14 +10,12 @@ import * as uuid from 'uuid'
 export abstract class Module implements IBaseModule {
     id = uuid.v4()
     abstract name: string
+    abstract parent: TNullable<IModuleConstructor>
     children: IModuleConstructor[] = []
     questions: QuestionCollection = []
     answers: TNullable<IAnswers> = null
-    constructor(public previousModuleAnswers: TNullable<IAnswers[]> = null) {}
-    onInquiryEnd? (): TMaybePromise<unknown>
-    nextModuleResolver? (): TMaybePromise<TNullable<IModuleConstructor>>
     start(): Promise<void> {
-        this.onBeforeStart()
+        this.onBeforeStart ? this.onBeforeStart() : console.clear()
         return inquirer.prompt(this.questions)
             .then(_answers => {
                 this.answers = _answers
@@ -34,8 +31,13 @@ export abstract class Module implements IBaseModule {
             }).then(_nextModule => _nextModule?.start())
             .catch(console.error)
     }
-    onBeforeStart() {
-        console.clear()
+    onInquiryEnd? (): TMaybePromise<unknown>
+    nextModuleResolver? (): TMaybePromise<TNullable<IModuleConstructor>>
+    onBeforeStart? (): TMaybePromise<void>
+    back() {
+        if (this.parent) {
+            new this.parent().start()
+        }
     }
     private checkChildren (_constructor: IModuleConstructor): never | void {
         if (!this.children.some(_child => _child === _constructor)) {

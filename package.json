@@ -20,6 +20,7 @@
     "dotenv": "^16.3.1",
     "inquirer": "^8.2.6",
     "progress": "^2.0.3",
+    "radash": "^11.0.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

@@ -1,25 +1,26 @@
+import chalk from "chalk";
+
 import { db } from '../../db';
-import { isLastMonth, isLastSemiYear, isLastWeek, isLastYear } from '../../helpers';
 import { amountHandler } from "./amount.handler";
 
 import { type ExpenseRecordDto } from "./expense-record.dto";
 import {
-    EExpenseCategory,
-    IExpenseRecord,
-    IModuleConstructor,
-    INextModuleResolver,
-    IOnBeforeStart,
-    Module,
-    TNullable
+  EExpenseCategory,
+  EExpenseCategoryLabel,
+  IOnBeforeStart,
+  Module, TMaybePromise,
 } from "../../base";
-import {QuestionCollection} from "inquirer";
-import chalk from "chalk";
-import {RootModule} from "../RootModule";
+import { QuestionCollection } from "inquirer";
+
+import { RootModule } from "../RootModule";
+import { SummaryModule} from "../summary-module/SummaryModule";
+import { summariseExpensesByTimeframes } from "../../helpers/summarizers.helpers";
 
 
-export class AddExpenseModule extends Module implements INextModuleResolver, IOnBeforeStart {
+export class AddExpenseModule extends Module implements IOnBeforeStart {
   name = 'AddExpenseModule'
-  children: IModuleConstructor[] = [RootModule];
+  children = [SummaryModule];
+  parent = RootModule
   questions: QuestionCollection = [
     {
       message: 'What have you spent on?',
@@ -29,66 +30,53 @@ export class AddExpenseModule extends Module implements INextModuleResolver, IOn
       pageSize: Infinity,
       loop: false,
       suffix: '\n',
-      choices: [
-        { value: EExpenseCategory.RENT, name: 'Rent' },
-        { value: EExpenseCategory.FOOD, name: 'Food' },
-        { value: EExpenseCategory.SELF_CARE, name: 'Self-care' },
-        { value: EExpenseCategory.ENTERTAINMENT, name: 'Entertainment' },
-        { value: EExpenseCategory.EDUCATION, name: 'Education' },
-        { value: EExpenseCategory.CHARITY_DONATIONS, name: 'Charity & Donations' },
-        { value: EExpenseCategory.PRESENTS, name: 'Presents' },
-        { value: EExpenseCategory.INVESTMENTS, name: 'Investments' },
-        { value: Infinity, name: chalk.yellowBright('Back') },
-      ]
+      choices: Object.keys(EExpenseCategory)
+          .filter(_category => isNaN(Number(_category)))
+          .map(_category => {
+            return {
+              name: EExpenseCategoryLabel[_category],
+              value:  EExpenseCategory[_category]
+            }
+      }).concat([{ value: 'Back', name: chalk.yellowBright('Back') },])
     },
     {
       message: 'How much did it cost you?',
       name: 'amount',
       type: 'input',
       default: '0',
-      when: _answers => _answers.category !== Infinity
+      when: _answers => _answers.category !== 'Back'
+    },
+    {
+      message: `Comment ${chalk.gray('(Optional)')}`,
+      name: 'comment',
+      type: 'input',
+      when: _answers => _answers.category !== 'Back'
     },
   ];
 
-  nextModuleResolver(): TNullable<IModuleConstructor> {
-    if (this.answers?.category === Infinity) return RootModule
-    return null;
-  }
-
   async onInquiryEnd() {
-    if (this.answers?.category === Infinity) return;
     await this.createRecord();
     const data = await db.getAll();
-    const summary = this.summarise(data);
+    const summary = summariseExpensesByTimeframes(data);
     this.displaySummary(summary)
+    console.log(chalk.greenBright('\n\nRecord Added!'))
+    setTimeout(() => this.back(), 2000)
+  }
+
+  onBeforeStart(): TMaybePromise<void> {
+    console.clear()
   }
 
   async createRecord () {
-    const { amount , category } = this.answers as ExpenseRecordDto
+    const { amount , category, comment = '' } = this.answers as ExpenseRecordDto
     await db.createRecord({
       amount: amountHandler(amount as string),
-      category
+      category,
+      comment
     })
   }
 
-  summarise(_data: IExpenseRecord[]) {
-    return _data.reduce((_acc, _cur) => {
-      const date = new Date(_cur.date);
-      const amount = _cur.amount || 0;
-      if (isLastYear(date)) _acc.lastYear += amount;
-      if (isLastSemiYear(date)) _acc.lastSemiYear += amount;
-      if (isLastMonth(date)) _acc.lastMonth += amount;
-      if (isLastWeek(date)) _acc.lastWeek += amount;
-      return _acc;
-    }, {
-      lastYear: 0,
-      lastSemiYear: 0,
-      lastMonth: 0,
-      lastWeek: 0,
-    });
-  }
-
-  displaySummary (_summary: ReturnType<typeof this.summarise>) {
+  displaySummary (_summary: ReturnType<typeof summariseExpensesByTimeframes>) {
     console.log('\nYou have spent:\n');
     console.log(_summary.lastWeek.toFixed(2), 'UAH in the last week');
     console.log(_summary.lastMonth.toFixed(2), 'UAH in the last month');

@@ -6,13 +6,13 @@ import chalk from "chalk";
 
 export class RecordsModule extends Module implements INextModuleResolver {
     name: 'RecordsModule'
-    children: IModuleConstructor[] = [RootModule]
+    parent = RootModule
 
     nextModuleResolver(): TMaybePromise<TNullable<IModuleConstructor>> {
       if (Module.validateUUID(this.answers?.recordId)) {
         this.suspend()
       } else if (this.answers?.recordId === ERecordsModuleOptions.BACK) {
-        return RootModule
+        this.back()
       }
       return null
     }
