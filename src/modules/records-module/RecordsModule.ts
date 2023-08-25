@@ -1,4 +1,4 @@
-import {EExpenseCategory, IModuleConstructor, INextModuleResolver, Module, TMaybePromise, TNullable} from "../../base";
+import {EExpenseCategory, TModuleConstructor, INextModuleResolver, Module, TMaybePromise, TNullable} from "../../base";
 import { db } from "../../db";
 import {ERecordsModuleOptions} from "./records-module.types";
 import {RootModule} from "../RootModule";
@@ -8,7 +8,7 @@ export class RecordsModule extends Module implements INextModuleResolver {
     name: 'RecordsModule'
     parent = RootModule
 
-    nextModuleResolver(): TMaybePromise<TNullable<IModuleConstructor>> {
+    nextModuleResolver(): TMaybePromise<TNullable<TModuleConstructor>> {
       if (Module.validateUUID(this.answers?.recordId)) {
         this.suspend()
       } else if (this.answers?.recordId === ERecordsModuleOptions.BACK) {

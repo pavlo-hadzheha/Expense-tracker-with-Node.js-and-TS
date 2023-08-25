@@ -8,7 +8,7 @@ import {
   EExpenseCategory,
   EExpenseCategoryLabel,
   IOnBeforeStart,
-  Module, TMaybePromise,
+  Module, TMaybePromise, TModuleConstructor,
 } from "../../base";
 import { QuestionCollection } from "inquirer";
 
@@ -19,7 +19,7 @@ import { summariseExpensesByTimeframes } from "../../helpers/summarizers.helpers
 
 export class AddExpenseModule extends Module implements IOnBeforeStart {
   name = 'AddExpenseModule'
-  children = [SummaryModule];
+  children: TModuleConstructor[] = [SummaryModule];
   parent = RootModule
   questions: QuestionCollection = [
     {

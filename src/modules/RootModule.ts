@@ -1,5 +1,5 @@
 import { INextModuleResolver, Module} from "../base";
-import { IModuleConstructor, TNullable } from "../base";
+import { TModuleConstructor, TNullable } from "../base";
 import { EStartMenuOption } from "./root-module.types";
 
 import { AddExpenseModule } from './add-expense-module/AddExpenseModule';
@@ -11,7 +11,7 @@ import chalk from "chalk";
 
 export class RootModule extends Module implements INextModuleResolver {
   name = 'RootModule'
-  children: IModuleConstructor[] = [AddExpenseModule, SummaryModule, RecordsModule];
+  children: TModuleConstructor[] = [AddExpenseModule, SummaryModule, RecordsModule];
   parent = null
   questions: QuestionCollection = [
     {
@@ -29,7 +29,7 @@ export class RootModule extends Module implements INextModuleResolver {
     },
   ];
 
-  nextModuleResolver(): TNullable<IModuleConstructor> {
+  nextModuleResolver(): TNullable<TModuleConstructor> {
     if (this.answers?.action === EStartMenuOption.ADD_RECORD) return AddExpenseModule;
     if (this.answers?.action === EStartMenuOption.SHOW_SUMMARY) return SummaryModule;
     if (this.answers?.action === EStartMenuOption.SHOW_ALL_RECORDS) return RecordsModule;

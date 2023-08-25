@@ -1,6 +1,6 @@
 import {
     IExpenseRecord,
-    IModuleConstructor,
+    TModuleConstructor,
     IModuleOnInquiryEnd,
     INextModuleResolver,
     Module,
@@ -14,11 +14,11 @@ import {
     summariseExpensesByCategoryAndTimeframes,
     summariseExpensesByTimeframes
 } from "../../helpers/summarizers.helpers";
-import {db} from "../../db";
+import { db } from "../../db";
 
 export class SummaryModule extends Module implements IModuleOnInquiryEnd, INextModuleResolver {
     name: 'SummaryModule';
-    children: IModuleConstructor[] = [RootModule];
+    children: TModuleConstructor[] = [RootModule];
     parent = RootModule
     questions = [
         {
@@ -52,21 +52,21 @@ export class SummaryModule extends Module implements IModuleOnInquiryEnd, INextM
         return null
     }
 
-    nextModuleResolver(): TMaybePromise<TNullable<IModuleConstructor>> {
+    nextModuleResolver(): TMaybePromise<TNullable<TModuleConstructor>> {
         if (this.answers?.summaryType === ESummaryOptions.BACK) return RootModule;
         if (this.answers?.summaryType === ESummaryOptions.CLOSE) this.suspend()
         return null
     }
 
-    summariseByCategory () {
+    private summariseByCategory () {
         console.table(summariseExpensesByCategory(this.data, true), ['category', 'total'])
     }
 
-    summariseByTimeframe () {
+    private summariseByTimeframe () {
         console.table(summariseExpensesByTimeframes(this.data))
     }
 
-    summariseByCategoryAndTimeframe() {
+    private summariseByCategoryAndTimeframe() {
         console.table(summariseExpensesByCategoryAndTimeframes(this.data))
     }
 }

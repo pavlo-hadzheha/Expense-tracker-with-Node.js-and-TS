@@ -45,7 +45,7 @@ export interface IModuleOnInquiryEnd {
 }
 
 export interface INextModuleResolver {
-    nextModuleResolver(): TMaybePromise<TNullable<IModuleConstructor>>
+    nextModuleResolver(): TMaybePromise<TNullable<TModuleConstructor>>
 }
 export interface IOnBeforeStart {
     onBeforeStart(): TMaybePromise<void>
@@ -53,12 +53,14 @@ export interface IOnBeforeStart {
 
 export interface IBaseModule {
     id: string
+    children: TModuleConstructor[]
+    parent: TNullable<TModuleConstructor>
     questions: QuestionCollection
     answers: TNullable<IAnswers>
     start(): TMaybePromise<void>
 }
 
-export interface IModuleConstructor {
-    new (): IBaseModule
-}
+export type TConstructor<T = {}> = new (...args: any[]) => T
+
+export type TModuleConstructor = TConstructor<IBaseModule>
 

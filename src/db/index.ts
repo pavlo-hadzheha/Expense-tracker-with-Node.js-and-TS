@@ -5,7 +5,7 @@ import { ExpenseRecordDto } from '../modules/add-expense-module/expense-record.d
 import {IExpenseRecord} from "../base";
 
 class ExpensesDatabase {
-  dbPath = path.resolve('./expenses-table.json');
+  dbPath = path.resolve('./_expenses-table.json');
 
   async getAll(): Promise<IExpenseRecord[]> {
     const data = await readFile(this.dbPath);
