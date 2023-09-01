@@ -55,13 +55,16 @@ export class AddExpenseModule extends Module implements IOnBeforeStart {
   ];
 
   async onInquiryEnd() {
-    if (this.answers!.category === 'Back') return;
-    await this.createRecord();
-    const data = await db.getAll();
-    const summary = summariseExpensesByTimeframes(data);
-    this.displaySummary(summary)
-    console.log(chalk.greenBright('\n\nRecord Added!'))
-    setTimeout(() => this.back(), 2000)
+    if (this.answers!.category === 'Back') {
+      this.back()
+    } else {
+      await this.createRecord();
+      const data = await db.getAll();
+      const summary = summariseExpensesByTimeframes(data);
+      this.displaySummary(summary)
+      console.log(chalk.greenBright('\n\nRecord Added!'))
+      setTimeout(() => this.back(), 2000)
+    }
   }
 
   onBeforeStart(): TMaybePromise<void> {

@@ -15,6 +15,7 @@ import {
     summariseExpensesByTimeframes
 } from "@/helpers/summarizers.helpers";
 import { db } from "@/db";
+import {add} from "@/helpers/add.helper";
 
 export class SummaryModule extends Module implements IModuleOnInquiryEnd, INextModuleResolver {
     name: 'SummaryModule';
@@ -66,16 +67,15 @@ export class SummaryModule extends Module implements IModuleOnInquiryEnd, INextM
         console.table(summariseExpensesByTimeframes(this.data))
     }
 
+
     private summariseByCategoryAndTimeframe() {
         const summary = summariseExpensesByCategoryAndTimeframes(this.data)
-        const columnsToAddUp = ['total', 'lastWeek', 'lastMonth', 'lastSemiYear', 'lastYear']
-        summary.map(_record => {
-            Object.entries(_record).map(([_key, _value]) => {
-                if (columnsToAddUp.includes(_key)) {
-                    _record[_key]
-                }
-            })
+        const columnsToAddUp = ['total', 'lastWeek', 'lastMonth', 'lastSemiYear', 'lastYear'] as const
+        const summaryTotals: Record<string, number | string> = {}
+        summaryTotals.category = 'TOTAL'
+        columnsToAddUp.forEach(_col => {
+            summaryTotals[_col] = add(...summary.map(_row => _row[_col] as number))
         })
-        console.table()
+        console.table(summary.concat([summaryTotals as any]))
     }
 }
