@@ -11,6 +11,10 @@
     "outDir": "build",
     "rootDir": "src",
     "esModuleInterop": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   }
 }

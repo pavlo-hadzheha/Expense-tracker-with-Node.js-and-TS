@@ -1,20 +1,20 @@
 import chalk from "chalk";
 
-import { db } from '../../db';
-import { amountHandler } from "./amount.handler";
+import { db } from '@/db';
+import { amountHandler } from "@/modules/add-expense-module/amount.handler";
 
-import { type ExpenseRecordDto } from "./expense-record.dto";
+import { type ExpenseRecordDto } from "@/modules/add-expense-module/expense-record.dto";
 import {
   EExpenseCategory,
   EExpenseCategoryLabel,
   IOnBeforeStart,
   Module, TMaybePromise, TModuleConstructor,
-} from "../../base";
+} from "@/base";
 import { QuestionCollection } from "inquirer";
 
-import { RootModule } from "../RootModule";
-import { SummaryModule} from "../summary-module/SummaryModule";
-import { summariseExpensesByTimeframes } from "../../helpers/summarizers.helpers";
+import { RootModule } from "@/modules/RootModule";
+import { SummaryModule} from "@/modules/summary-module/SummaryModule";
+import { summariseExpensesByTimeframes } from "@/helpers/summarizers.helpers";
 
 
 export class AddExpenseModule extends Module implements IOnBeforeStart {
@@ -27,7 +27,7 @@ export class AddExpenseModule extends Module implements IOnBeforeStart {
       name: 'category',
       type: 'list',
       default: 1,
-      pageSize: Infinity,
+      pageSize: 10,
       loop: false,
       suffix: '\n',
       choices: Object.keys(EExpenseCategory)
@@ -55,6 +55,7 @@ export class AddExpenseModule extends Module implements IOnBeforeStart {
   ];
 
   async onInquiryEnd() {
+    if (this.answers!.category === 'Back') return;
     await this.createRecord();
     const data = await db.getAll();
     const summary = summariseExpensesByTimeframes(data);

@@ -1,10 +1,10 @@
-import { INextModuleResolver, Module} from "../base";
-import { TModuleConstructor, TNullable } from "../base";
-import { EStartMenuOption } from "./root-module.types";
+import { INextModuleResolver, Module} from "@/base";
+import { TModuleConstructor, TNullable } from "@/base";
+import { EStartMenuOption } from "@/modules/root-module.types";
 
-import { AddExpenseModule } from './add-expense-module/AddExpenseModule';
-import { SummaryModule } from "./summary-module/SummaryModule";
-import { RecordsModule } from "./records-module/RecordsModule";
+import { AddExpenseModule } from '@/modules/add-expense-module/AddExpenseModule';
+import { SummaryModule } from "@/modules/summary-module/SummaryModule";
+import { RecordsModule } from "@/modules/records-module/RecordsModule";
 
 import { QuestionCollection } from "inquirer";
 import chalk from "chalk";

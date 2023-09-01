@@ -6,15 +6,15 @@ import {
     Module,
     TMaybePromise,
     TNullable
-} from "../../base";
-import { ESummaryOptions } from "./summary-module.types";
-import { RootModule } from "../RootModule";
+} from "@/base";
+import { ESummaryOptions } from "@/modules/summary-module/summary-module.types";
+import { RootModule } from "@/modules/RootModule";
 import {
     summariseExpensesByCategory,
     summariseExpensesByCategoryAndTimeframes,
     summariseExpensesByTimeframes
-} from "../../helpers/summarizers.helpers";
-import { db } from "../../db";
+} from "@/helpers/summarizers.helpers";
+import { db } from "@/db";
 
 export class SummaryModule extends Module implements IModuleOnInquiryEnd, INextModuleResolver {
     name: 'SummaryModule';
@@ -67,6 +67,15 @@ export class SummaryModule extends Module implements IModuleOnInquiryEnd, INextM
     }
 
     private summariseByCategoryAndTimeframe() {
-        console.table(summariseExpensesByCategoryAndTimeframes(this.data))
+        const summary = summariseExpensesByCategoryAndTimeframes(this.data)
+        const columnsToAddUp = ['total', 'lastWeek', 'lastMonth', 'lastSemiYear', 'lastYear']
+        summary.map(_record => {
+            Object.entries(_record).map(([_key, _value]) => {
+                if (columnsToAddUp.includes(_key)) {
+                    _record[_key]
+                }
+            })
+        })
+        console.table()
     }
 }

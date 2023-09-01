@@ -1,4 +1,4 @@
-import { EExpenseCategory } from "../../base";
+import { EExpenseCategory } from "@/base";
 
 export class ExpenseRecordDto {
     amount: number | string
