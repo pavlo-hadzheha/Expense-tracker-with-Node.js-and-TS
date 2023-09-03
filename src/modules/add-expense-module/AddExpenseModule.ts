@@ -47,9 +47,10 @@ export class AddExpenseModule extends Module implements IOnBeforeStart {
       when: _answers => _answers.category !== 'Back'
     },
     {
-      message: `Comment ${chalk.gray('(Optional)')}`,
+      message: `Comment ${chalk.white('(Optional; maxLen=50)')}`,
       name: 'comment',
       type: 'input',
+      validate: (value: string) => value.length <= 50,
       when: _answers => _answers.category !== 'Back'
     },
   ];

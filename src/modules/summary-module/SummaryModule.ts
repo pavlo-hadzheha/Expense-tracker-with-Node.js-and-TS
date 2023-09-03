@@ -70,7 +70,7 @@ export class SummaryModule extends Module implements IModuleOnInquiryEnd, INextM
 
     private summariseByCategoryAndTimeframe() {
         const summary = summariseExpensesByCategoryAndTimeframes(this.data)
-        const columnsToAddUp = ['total', 'lastWeek', 'lastMonth', 'lastSemiYear', 'lastYear'] as const
+        const columnsToAddUp = ['total', 'lastWeek', 'lastMonth', 'lastSemiYear', 'lastYear', 'allTime'] as const
         const summaryTotals: Record<string, number | string> = {}
         summaryTotals.category = 'TOTAL'
         columnsToAddUp.forEach(_col => {

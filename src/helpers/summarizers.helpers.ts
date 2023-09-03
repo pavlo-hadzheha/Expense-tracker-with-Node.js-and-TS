@@ -10,12 +10,14 @@ export function summariseExpensesByTimeframes(_data: IExpenseRecord[]) {
         if (isLastSemiYear(date)) _acc.lastSemiYear = +(_acc.lastSemiYear + amount).toFixed(2);
         if (isLastMonth(date)) _acc.lastMonth = +(_acc.lastMonth + amount).toFixed(2);
         if (isLastWeek(date)) _acc.lastWeek = +(_acc.lastWeek + amount).toFixed(2);
+        _acc.allTime = +(_acc.allTime + amount).toFixed(2);
         return _acc;
     }, {
         lastWeek: 0,
         lastMonth: 0,
         lastSemiYear: 0,
         lastYear: 0,
+        allTime: 0
     });
 }
 
