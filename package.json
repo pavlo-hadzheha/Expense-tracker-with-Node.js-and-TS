@@ -5,31 +5,31 @@
   "description": "CLI for tracking your expenses",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "npx tsc",
-    "start": "node --experimental-specifier-resolution=node build/index.js",
-    "compile": "npx tsc"
+    "start:dev": "nodemon",
+    "start": "node --experimental-specifier-resolution=node build",
+    "set-git-hooks": "cp scripts/pre-commit* .git/hooks && chmod +x .git/hooks/* && git config --local core.hooksPath .git/hooks",
+    "compile": "tsc && tsc-alias"
   },
-  "engines" : {
-    "npm" : ">=8.0.0 <9.0.0",
-    "node" : ">=16.0.0 <19.0.0"
+  "engines": {
+    "npm": ">=8.0.0 <9.0.0",
+    "node": ">=16.0.0 <=18.7.0"
   },
   "author": "Pavlo Hadzheha",
   "license": "ISC",
   "dependencies": {
     "chalk": "^5.3.0",
     "dotenv": "^16.3.1",
-    "esm": "^3.2.25",
     "inquirer": "^8.2.6",
     "progress": "^2.0.3",
+    "radash": "^11.0.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@ts-tools/esm": "^5.0.1",
     "@types/inquirer": "^9.0.3",
     "@types/node": "^20.4.10",
     "@types/uuid": "^9.0.2",
     "nodemon": "^3.0.1",
-    "ts-node": "^10.9.1",
+    "tsc-alias": "^1.8.7",
     "typescript": "^5.1.6"
   }
 }

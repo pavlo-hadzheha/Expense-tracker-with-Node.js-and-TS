@@ -1,11 +1,11 @@
 import { readFile, writeFile } from 'fs/promises';
 import path from 'path';
 import { v4 as uuid } from 'uuid';
-import { IExpenseRecord } from '../types.js';
-import { ExpenseRecordDto } from '../add-expense-module/expense-record.dto.js';
+import { ExpenseRecordDto } from '../modules/add-expense-module/expense-record.dto';
+import {IExpenseRecord} from "../base";
 
 class ExpensesDatabase {
-  dbPath = path.resolve('./expenses-table.json');
+  dbPath = path.resolve('./_expenses-table.json');
 
   async getAll(): Promise<IExpenseRecord[]> {
     const data = await readFile(this.dbPath);
@@ -13,10 +13,11 @@ class ExpensesDatabase {
   }
 
   async createRecord(_expenseRecordDto: ExpenseRecordDto) {
-    const { amount, category } = _expenseRecordDto;
+    const { amount, category, comment } = _expenseRecordDto;
     const record: IExpenseRecord = {
       amount: amount as number,
       category,
+      comment,
       date: new Date().toISOString(),
       id: uuid(),
     };

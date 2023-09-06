@@ -1,0 +1,22 @@
+[
+  {
+    "value": "Add new feature",
+    "name": "Add new feature"
+  },
+  {
+    "value": "Fix a bug",
+    "name": "Fix a bug"
+  },
+  {
+    "value": "Update documentation",
+    "name": "Update documentation"
+  },
+  {
+    "value": "Refactor code",
+    "name": "Refactor code"
+  },
+  {
+    "value": "Other",
+    "name": "Other"
+  }
+]

@@ -1,13 +1,20 @@
 {
-  "include": ["src/**/*"],
+  "include": [
+    "src/**/*"
+  ],
   "compilerOptions": {
     "allowJs": true,
-    "target": "es5",
+    "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "outDir": "build",
     "rootDir": "src",
     "esModuleInterop": true,
+    "strictNullChecks": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   }
 }
