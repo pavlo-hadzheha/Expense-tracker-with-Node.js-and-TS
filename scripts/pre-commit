@@ -1,3 +1,0 @@
-#!/bin/bash
-echo $GIT_DIR
-node .git/hooks/pre-commit.cjs
