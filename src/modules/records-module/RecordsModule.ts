@@ -23,7 +23,7 @@ export class RecordsModule extends Module implements INextModuleResolver {
     parent = RootModule
 
     nextModuleResolver(): TMaybePromise<TNullable<TModuleConstructor>> {
-      if (Module.validateUUID(this.answers?.recordId)) {
+      if (RecordsModule.validateUUID(this.answers?.recordId)) {
         this.suspend()
       } else if (this.answers?.recordId === ERecordsModuleOptions.BACK) {
         this.back()
@@ -35,7 +35,7 @@ export class RecordsModule extends Module implements INextModuleResolver {
       await this.initializeQuestions()
       await super.start()
     }
-    
+
     createTableHeader() {
       const amount = EColHeader.AMOUNT.padEnd(EColLength.AMOUNT,' ')
       const category = EColHeader.CATEGORY.padEnd(EColLength.CATEGORY,' ')
@@ -57,7 +57,7 @@ export class RecordsModule extends Module implements INextModuleResolver {
           value: _record.id,
           name: `${amount} | ${category} | ${date} | ${comment} |`
         }
-      })
+      }).reverse()
       this.questions = [
             {
               message:  'Pick a record to see its actions',
