@@ -1,3 +1,3 @@
 export enum ERecordsModuleOptions {
-    BACK = 1
+    BACK = 'BACK'
 }

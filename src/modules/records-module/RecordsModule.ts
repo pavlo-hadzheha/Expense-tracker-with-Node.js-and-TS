@@ -3,6 +3,7 @@ import { db } from "@/db";
 import { ERecordsModuleOptions } from "@/modules/records-module/records-module.types";
 import { RootModule } from "@/modules/RootModule";
 import chalk from "chalk";
+import { RecordsActionModule } from "@/modules/records-module/RecordActionModule/RecordsActionModule";
 
 enum EColLength {
   AMOUNT = 15,
@@ -21,10 +22,11 @@ enum EColHeader {
 export class RecordsModule extends Module implements INextModuleResolver {
     name: 'RecordsModule'
     parent = RootModule
+    children = [RecordsActionModule]
 
     nextModuleResolver(): TMaybePromise<TNullable<TModuleConstructor>> {
       if (RecordsModule.validateUUID(this.answers?.recordId)) {
-        this.suspend()
+        return RecordsActionModule
       } else if (this.answers?.recordId === ERecordsModuleOptions.BACK) {
         this.back()
       }
