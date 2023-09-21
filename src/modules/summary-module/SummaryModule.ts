@@ -74,7 +74,7 @@ export class SummaryModule extends Module implements IModuleOnInquiryEnd, INextM
         const summaryTotals: Record<string, number | string> = {}
         summaryTotals.category = 'TOTAL'
         columnsToAddUp.forEach(_col => {
-            summaryTotals[_col] = add(...summary.map(_row => _row[_col] as number))
+            summaryTotals[_col] = +add(...summary.map(_row => _row[_col] as number)).toFixed(0)
         })
         console.table(summary.concat([summaryTotals as any]))
     }
