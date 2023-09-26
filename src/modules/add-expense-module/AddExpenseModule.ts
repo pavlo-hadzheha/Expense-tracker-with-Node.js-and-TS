@@ -13,7 +13,7 @@ import {
 import { QuestionCollection } from "inquirer";
 
 import { RootModule } from "@/modules/RootModule";
-import { SummaryModule} from "@/modules/summary-module/SummaryModule";
+import { SummaryModule } from "@/modules/summary-module/SummaryModule";
 import { summariseExpensesByTimeframes } from "@/helpers/summarizers.helpers";
 
 
@@ -31,13 +31,13 @@ export class AddExpenseModule extends Module implements IOnBeforeStart {
       loop: false,
       suffix: '\n',
       choices: Object.keys(EExpenseCategory)
-          .filter(_category => isNaN(Number(_category)))
-          .map(_category => {
-            return {
-              name: EExpenseCategoryLabel[_category],
-              value:  EExpenseCategory[_category]
-            }
-      }).concat([{ value: 'Back', name: chalk.yellowBright('Back') },])
+        .filter(_category => isNaN(Number(_category)))
+        .map(_category => {
+          return {
+            name: EExpenseCategoryLabel[_category],
+            value: EExpenseCategory[_category]
+          }
+        }).concat([{ value: 'Back', name: chalk.yellowBright('Back') },])
     },
     {
       message: 'How much did it cost you?',
@@ -72,8 +72,8 @@ export class AddExpenseModule extends Module implements IOnBeforeStart {
     console.clear()
   }
 
-  async createRecord () {
-    const { amount , category, comment = '' } = this.answers as ExpenseRecordDto
+  async createRecord() {
+    const { amount, category, comment = '' } = this.answers as ExpenseRecordDto
     await db.createRecord({
       amount: amountHandler(amount as string),
       category,
@@ -81,7 +81,7 @@ export class AddExpenseModule extends Module implements IOnBeforeStart {
     })
   }
 
-  displaySummary (_summary: ReturnType<typeof summariseExpensesByTimeframes>) {
+  displaySummary(_summary: ReturnType<typeof summariseExpensesByTimeframes>) {
     console.log('\nYou have spent:\n');
     console.log(_summary.lastWeek.toFixed(2), 'UAH in the last week');
     console.log(_summary.lastMonth.toFixed(2), 'UAH in the last month');

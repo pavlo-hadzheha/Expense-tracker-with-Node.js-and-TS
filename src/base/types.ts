@@ -2,8 +2,13 @@ import { Answers, QuestionCollection } from "inquirer";
 
 export type IAnswers = Answers
 
+export enum ECommonAction {
+    BACK = 'COMOON-BACK',
+    CLOSE = 'COMOON-CLOSE'
+}
+
 export enum EExpenseCategory {
-    RENT = 1 ,
+    RENT = 1,
     FOOD,
     SELF_CARE,
     ENTERTAINMENT,
@@ -17,7 +22,7 @@ export enum EExpenseCategory {
 }
 
 export enum EExpenseCategoryLabel {
-    RENT = "Rent" ,
+    RENT = "Rent",
     FOOD = "Food",
     SELF_CARE = "Self-care",
     ENTERTAINMENT = "Entertainment",

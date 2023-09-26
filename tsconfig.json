@@ -4,7 +4,7 @@
   ],
   "compilerOptions": {
     "allowJs": true,
-    "target": "ESNext",
+    "target": "ES5",
     "module": "ESNext",
     "moduleResolution": "node",
     "noUnusedLocals": true,
@@ -12,9 +12,12 @@
     "rootDir": "src",
     "esModuleInterop": true,
     "strictNullChecks": true,
+    "experimentalDecorators": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     }
   }
 }

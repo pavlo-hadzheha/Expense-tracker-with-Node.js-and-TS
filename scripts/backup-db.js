@@ -14,6 +14,7 @@ const sourceReadStream = fs.createReadStream(SOURCE_DB_PATH, {
 	highWaterMark: 64
 })
 
+
 const backupWriteStream = fs.createWriteStream(BACKUP_DB_PATH)
 
 sourceReadStream.pipe(backupWriteStream)

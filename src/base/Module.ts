@@ -4,13 +4,13 @@ import {
     TMaybePromise,
     TNullable
 } from "./types";
-import inquirer, {QuestionCollection} from "inquirer";
+import inquirer, { QuestionCollection } from "inquirer";
 import * as uuid from 'uuid'
 
 export interface Module {
-    onInquiryEnd? (): TMaybePromise<unknown>
-    nextModuleResolver? (): TMaybePromise<TNullable<TModuleConstructor>>
-    onBeforeStart? (): TMaybePromise<void>
+    onInquiryEnd?(): TMaybePromise<unknown>
+    nextModuleResolver?(): TMaybePromise<TNullable<TModuleConstructor>>
+    onBeforeStart?(): TMaybePromise<void>
 }
 
 export abstract class Module implements IBaseModule {
@@ -21,7 +21,7 @@ export abstract class Module implements IBaseModule {
     questions: QuestionCollection = []
     answers: TNullable<IAnswers> = null
     async start(_caller?: TNullable<TModuleConstructor>): Promise<void> {
-        this.onBeforeStart ? await this.onBeforeStart() : console.clear()
+        // this.onBeforeStart ? await this.onBeforeStart() : console.clear()
         return inquirer.prompt(this.questions)
             .then(_answers => {
                 this.answers = _answers
@@ -42,7 +42,7 @@ export abstract class Module implements IBaseModule {
             new this.parent().start()
         }
     }
-    private checkChildren (_constructor: TModuleConstructor): never | void {
+    private checkChildren(_constructor: TModuleConstructor): never | void {
         if (!this.children.some(_child => _child === _constructor)) {
             throw ReferenceError(`${_constructor.name} is not declared as a child of ${this.name}`)
         }
@@ -51,7 +51,7 @@ export abstract class Module implements IBaseModule {
         console.clear()
         process.exit(0)
     }
-    static validateUUID (_input: string) {
+    static validateUUID(_input: string) {
         return uuid.validate(_input)
     }
 }

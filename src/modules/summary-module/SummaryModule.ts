@@ -9,13 +9,13 @@ import {
 } from "@/base";
 import { ESummaryOptions } from "@/modules/summary-module/summary-module.types";
 import { RootModule } from "@/modules/RootModule";
+import { db } from "@/db";
 import {
     summariseExpensesByCategory,
     summariseExpensesByCategoryAndTimeframes,
-    summariseExpensesByTimeframes
-} from "@/helpers/summarizers.helpers";
-import { db } from "@/db";
-import {add} from "@/helpers/add.helper";
+    summariseExpensesByTimeframes,
+    add
+} from "@/helpers";
 
 export class SummaryModule extends Module implements IModuleOnInquiryEnd, INextModuleResolver {
     name: 'SummaryModule';
@@ -39,7 +39,7 @@ export class SummaryModule extends Module implements IModuleOnInquiryEnd, INextM
 
     data: IExpenseRecord[] = []
 
-    async onInquiryEnd()  {
+    async onInquiryEnd() {
         if ([
             ESummaryOptions.BY_CATEGORY,
             ESummaryOptions.BY_CATEGORY_AND_TIMEFRAMES,
@@ -59,11 +59,11 @@ export class SummaryModule extends Module implements IModuleOnInquiryEnd, INextM
         return null
     }
 
-    private summariseByCategory () {
+    private summariseByCategory() {
         console.table(summariseExpensesByCategory(this.data, true), ['category', 'total'])
     }
 
-    private summariseByTimeframe () {
+    private summariseByTimeframe() {
         console.table(summariseExpensesByTimeframes(this.data))
     }
 
