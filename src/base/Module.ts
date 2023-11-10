@@ -21,7 +21,7 @@ export abstract class Module implements IBaseModule {
     questions: QuestionCollection = []
     answers: TNullable<IAnswers> = null
     async start(_caller?: TNullable<TModuleConstructor>): Promise<void> {
-        // this.onBeforeStart ? await this.onBeforeStart() : console.clear()
+        this.onBeforeStart ? await this.onBeforeStart() : console.clear()
         return inquirer.prompt(this.questions)
             .then(_answers => {
                 this.answers = _answers

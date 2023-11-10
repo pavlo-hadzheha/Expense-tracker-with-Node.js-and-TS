@@ -1,9 +1,9 @@
 build
 node_modules
-.env
 .idea
 _expenses-table.json
 .DS_Store
 .vscode
 
 
+config.bat
