@@ -18,7 +18,8 @@ export enum EExpenseCategory {
     INVESTMENTS,
     CLOTHES,
     TRANSPORTATION,
-    HOME_APPLIANCES
+    HOME_APPLIANCES,
+    TAXES_FOP
 }
 
 export enum EExpenseCategoryLabel {
@@ -32,7 +33,8 @@ export enum EExpenseCategoryLabel {
     INVESTMENTS = "Investments",
     CLOTHES = "Clothes",
     TRANSPORTATION = "Transportation",
-    HOME_APPLIANCES = "Home Appliances"
+    HOME_APPLIANCES = "Home Appliances",
+    TAXES_FOP = "FOP Taxes"
 }
 
 export interface IExpenseRecord {
